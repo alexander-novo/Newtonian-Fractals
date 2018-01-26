@@ -4,15 +4,18 @@
 #include <sys/time.h>
 #include <assert.h>
 #include <random>
+#include <complex>
 
 #include "window.h"
 #include "graphics.h"
 #include "Menu.h"
 
 #define ENGINE_NAME_DEFAULT "Newtonian Method Fractals"
-#define ENGINE_WIDTH_DEFAULT 800
-#define ENGINE_HEIGHT_DEFAULT 600
+#define ENGINE_WIDTH_DEFAULT 1600
+#define ENGINE_HEIGHT_DEFAULT 1600
 #define ENGINE_FULLSCREEN_DEFAULT false
+
+typedef  std::complex<long double> comp;
 
 class Engine {
 	public:
@@ -62,6 +65,8 @@ class Engine {
 		void Keyboard(unsigned dt);
 		//Handle other events (mouse, etc.)
 		void eventHandler(unsigned dt);
+		
+		comp newtonMethod(comp, comp(*func)(const comp&), comp(*prime)(const comp&));
 };
 
 #endif // ENGINE_H

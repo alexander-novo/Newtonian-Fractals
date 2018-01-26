@@ -30,8 +30,6 @@ bool Graphics::Initialize(int width, int height) {
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	
-	glDrawBuffer(GL_NONE);
-	
 	//enable depth testing
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -39,19 +37,18 @@ bool Graphics::Initialize(int width, int height) {
 	return true;
 }
 
-glm::vec3 hsv2rgb(glm::vec3 in) {
+glm::vec3 Graphics::hsv2rgb(const glm::vec3& in) {
 	float hh, p, q, t, ff;
 	long i;
 	glm::vec3 out;
 	
-	if (in.r <= 0.0) {
-		out.r = in.b;
-		out.g = in.b;
-		out.b = in.b;
-		return out;
-	}
 	hh = in.r;
-	if (hh >= 360.0) hh = 0.0;
+	while(hh < 0) {
+		hh += 360.0;
+	}
+	while(hh >= 360.0) {
+		hh -= 360.0;
+	}
 	hh /= 60.0;
 	i = (long) hh;
 	ff = hh - i;
@@ -103,11 +100,11 @@ void Graphics::Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	// Get any errors from OpenGL
-	auto error = glGetError();
-	if (error != GL_NO_ERROR) {
-		std::string val = ErrorString(error);
-		std::cout << "Error initializing OpenGL! " << error << ", " << val << std::endl;
-	}
+//	auto error = glGetError();
+//	if (error != GL_NO_ERROR) {
+//		std::string val = ErrorString(error);
+//		std::cout << "Error initializing OpenGL! " << error << ", " << val << std::endl;
+//	}
 }
 
 std::string Graphics::ErrorString(GLenum error) {

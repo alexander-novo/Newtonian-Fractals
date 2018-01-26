@@ -27,13 +27,9 @@
 
 struct Vertex {
 	glm::vec3 vertex;
-	glm::vec2 uv;
-	glm::vec3 normal;
+	glm::vec3 color;
 	
-	glm::vec3 tangent;
-	glm::vec3 bitangent;
-	
-	Vertex(glm::vec3 v, glm::vec2 u, glm::vec3 n, glm::vec3 t, glm::vec3 b) : vertex(v), uv(u), normal(n), tangent(t), bitangent(b) {}
+	Vertex(glm::vec3 v, glm::vec3 c) : vertex(v), color(c) {}
 };
 
 std::ostream& operator<<(std::ostream& stream, const glm::vec3 & vector);

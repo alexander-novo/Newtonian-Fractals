@@ -17,6 +17,8 @@ class Graphics {
 		bool Initialize(int width, int height);
 		
 		void Render();
+		
+		static glm::vec3 hsv2rgb(const glm::vec3&);
 	private:
 		const int& windowWidth;
 		const int& windowHeight;
