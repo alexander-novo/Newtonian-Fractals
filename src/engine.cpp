@@ -43,19 +43,33 @@ bool Engine::Initialize() {
 }
 
 comp easy(const comp& num) {
-	//return num * num * num * num * num + 1.0l;
+	return pow(num, 3) + 1.0l;
+	//return pow(num, 5) + 1.0l;
 	//return sinh(num);
 	//return (long double) log(abs(num));
 	//return pow(num, 3) + exp(num);
-	return sin(exp(num) * num);
+	//return sin(exp(num) * num);
+	//return pow(num,5) + 4.0l * pow(num,4) + 3.0l * pow(num,2) - 12.0l;
+	//return num * exp(-3.0l * pow(num, 5)) * sin(pow(num, 2));
+	//return log(abs(sin(num)));
+	//return tan(num);
+	//return sin(tan(num));
+	//return tan(num * exp(num));
 }
 
 comp easyPrime(const comp& num) {
-	//return 5.0l * num * num * num * num;
+	return 3.0l * pow(num, 2);
+	//return 5.0l * pow(num, 4);
 	//return cosh(num);
 	//return 1.0l / num;
 	//return 3.0l * pow(num, 2) + exp(num);
-	return exp(num) * cos(exp(num) * num) * (1.0l + num);
+	//return exp(num) * cos(exp(num) * num) * (1.0l + num);
+	//return 5.0l * pow(num,4) + 16.0l * pow(num,3) + 6.0l * num;
+	//return -1.0l * exp(-3.0l * pow(num, 5)) * ((15.0l * pow(num, 5) - 1.0l) * sin(pow(num, 2)) - 2.0l * pow(num, 2) * cos(pow(num, 2)));
+	//return cos(num) / sin(num);
+	//return pow(1.0l / cos(num), 2);
+	//return cos(tan(num)) * pow(1.0l / cos(num), 2);
+	//return 1.0l / pow(cos(num * exp(num)), 2) * (exp(num) + num * exp(num));
 }
 
 std::string ErrorString(GLenum error) {
@@ -77,9 +91,9 @@ std::string ErrorString(GLenum error) {
 void Engine::Run() {
 	m_running = true;
 	
-	double radius = 1.0;
+	double radius = 0.1;
 	//double delta = 0.0025;
-	double delta = radius / 1000.0;
+	double delta = radius / 1600.0;
 	comp num;
 	comp _num;
 	comp prev_num;

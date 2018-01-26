@@ -52,40 +52,42 @@ glm::vec3 Graphics::hsv2rgb(const glm::vec3& in) {
 	hh /= 60.0;
 	i = (long) hh;
 	ff = hh - i;
-	p = in.b * (1.0 - in.g);
-	q = in.b * (1.0 - (in.g * ff));
-	t = in.b * (1.0 - (in.g * (1.0 - ff)));
+	float b = in.b < 0 ? 0 : (in.b > 1 ? 1 : in.b);
+	float g = in.g < 0 ? 0 : (in.g > 1 ? 1 : in.g);
+	p = b * (1.0 - g);
+	q = b * (1.0 - (g * ff));
+	t = b * (1.0 - (g * (1.0 - ff)));
 	
 	switch (i) {
 		case 0:
-			out.r = in.b;
+			out.r = b;
 			out.g = t;
 			out.b = p;
 			break;
 		case 1:
 			out.r = q;
-			out.g = in.b;
+			out.g = b;
 			out.b = p;
 			break;
 		case 2:
 			out.r = p;
-			out.g = in.b;
+			out.g = b;
 			out.b = t;
 			break;
 		
 		case 3:
 			out.r = p;
 			out.g = q;
-			out.b = in.b;
+			out.b = b;
 			break;
 		case 4:
 			out.r = t;
 			out.g = p;
-			out.b = in.b;
+			out.b = b;
 			break;
 		case 5:
 		default:
-			out.r = in.b;
+			out.r = b;
 			out.g = p;
 			out.b = q;
 			break;
