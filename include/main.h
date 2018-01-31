@@ -1,4 +1,7 @@
+#define _USE_MATH_DEFINES
 #include <complex>
+#include <cmath>
+#include <ctime>
 #include <fstream>
 #include <iostream>
 

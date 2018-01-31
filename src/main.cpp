@@ -2,7 +2,7 @@
 
 int main(int argc, char** argv) {
 	run();
-	
+
 	return 0;
 }
 
@@ -15,20 +15,23 @@ void run() {
 	comp z;
 	vec3 rgb;
 	int vertexDimensions = radius / delta * 2;
-	
+
 	time_t now = time(NULL);
-	
+	time_t _now;
+
 	long long numNewtonMethod = 0;
 	long long numPerCent = vertexDimensions * vertexDimensions / 100;
 	int perCents = 0;
 	long long counter = 0;
-	
+	unsigned remaining;
+	float speed;
+
 	typedef unsigned char uchar;
 	std::ofstream fout("fractal.tga", std::ios::binary | std::ios::out | std::ios::trunc);
-	
+
 	// this is the tga header it must be in the beginning of
 	// every (uncompressed) .tga
-	char TGAheader[12]={0,0,2,0,0,0,0,0,0,0,0,0};
+	char TGAheader[12] = {0,0,2,0,0,0,0,0,0,0,0,0};
 	// the header that is used to get the dimensions of the .tga
 	// header[1]*256+header[0] - width
 	// header[3]*256+header[2] - height
@@ -50,8 +53,8 @@ void run() {
 	
 	std::cout << "Calculated: 0%\r" << std::flush;
 	//generate our vertices
-	for(int y = 0; y < vertexDimensions; y ++) {
-		for(int x = 0; x < vertexDimensions; x ++) {
+	for(int y = 0; y < vertexDimensions; y++) {
+		for(int x = 0; x < vertexDimensions; x++) {
 			num = comp(-radius + x * delta, radius - y * delta);
 			_num = num;
 //			num = 0;
@@ -66,25 +69,30 @@ void run() {
 				}
 			}
 			numNewtonMethod += i;
-			
+
 			rgb = zToRGB(num);
 			fout.put(rgb.r);
 			fout.put(rgb.g);
 			fout.put(rgb.b);
-			
+
 			counter++;
 			if(counter == numPerCent) {
 				perCents++;
-				std::cout << "Calculated: " << perCents << "%\r" << std::flush;
+				_now = time(nullptr);
+				remaining = 100 - perCents;
+				speed = float(_now - now) / perCents;
+				std::cout << "                                                                     \r"
+					<< "Calculated: " << perCents << "% - Time Taken: " << _now - now << "s - Est. Time Remaining: " << unsigned(speed * remaining) << "s\r" << std::flush;
 				counter = 0;
 			}
 		}
 	}
-	
-	std::cout << "Time taken to generate vertices: " << time(NULL) - now << " s" << std::endl;
-	std::cout << "Avg. number of Newton's Method iterations: " << numNewtonMethod / ((double) vertexDimensions * vertexDimensions) << std::endl;
+
+	std::cout << '\n'
+		<< "Time taken to generate vertices: " << time(NULL) - now << " s" << std::endl
+		<< "Avg. number of Newton's Method iterations: " << numNewtonMethod / ((double)vertexDimensions * vertexDimensions) << std::endl;
 	now = time(NULL);
-	
+
 	fout.close();
 }
 
@@ -98,7 +106,7 @@ comp easy(const comp& num) {
 	//return pow(num,5) + 4.0l * pow(num,4) + 3.0l * pow(num,2) - 12.0l;
 	//return num * exp(-3.0l * pow(num, 5)) * sin(pow(num, 2));
 	//return (long double) log(abs(sin(num))) + num;
-	//return tan(num);
+	//return sin(num) / cos(num);
 	//return sin(tan(num));
 	//return tan(num * exp(num));
 	//return sinh(exp(num));
@@ -126,11 +134,11 @@ vec3 zToRGB(comp z) {
 	long double theta = std::arg(z);
 	long double r = std::abs(z);
 	long double h = theta * 3 / M_PI;
-	
+
 	rgb.r = CLAMP(2.0 - std::abs(h), 0, 1) * 255.0l;
 	rgb.g = CLAMP(std::abs(h - 1.0) - 1.0, 0, 1) * 255.0l;
 	rgb.b = CLAMP(std::abs(h + 1.0) - 1.0, 0, 1) * 255.0l;
-	
+
 	return rgb;
 }
 
